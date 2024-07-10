@@ -12,9 +12,10 @@ export default function Movies() {
       </p>
     );
   }
+
   return (
     <div className="container my-5 p-2">
-      <div className="grid grid-rows-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-rows-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {data?.data.map((movie: TMovie) => (
           <MovieCard key={movie?._id} movie={movie}></MovieCard>
         ))}

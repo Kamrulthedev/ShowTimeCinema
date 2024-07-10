@@ -4,18 +4,18 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({ baseUrl: "https://c-session.vercel.app/api" }),
-  tagTypes:["movies"],
+  tagTypes: ["movies"],
   endpoints: (builder) => ({
     getMovies: builder.query({
       query: () => ({
         method: "GET",
         url: "/movies",
       }),
-      providesTags:["movies"]
+      providesTags: ["movies"],
     }),
 
     addRating: builder.mutation({
-      query: ({data, slug}) => {
+      query: ({ data, slug }) => {
         console.log(data);
         return {
           method: "POST",
@@ -23,9 +23,19 @@ export const baseApi = createApi({
           body: data,
         };
       },
-      invalidatesTags:["movies"]
+      invalidatesTags: ["movies"],
     }),
+    getSingelMovie: builder.query({
+      query: (slug) => {
+        return {
+          method: "GET",
+          url: `/movies/${slug}`,
+          body: slug,
+        };
+      },
+    }),
+
   }),
 });
 
-export const { useGetMoviesQuery, useAddRatingMutation } = baseApi;
+export const { useGetMoviesQuery, useAddRatingMutation, useGetSingelMovieQuery } = baseApi;
