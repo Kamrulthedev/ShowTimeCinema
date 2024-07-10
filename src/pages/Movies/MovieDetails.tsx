@@ -1,14 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-// import { Button } from "@/components/ui/button";
-import { useGetMoviesQuery } from "@/redux/api/api";
-// import { Play, Plus, Star, StarIcon } from "lucide-react";
+import { useGetSingleMovieQuery } from "@/redux/api/api";
+import { Play, Plus, Star, StarIcon } from "lucide-react";
 import { useParams } from "react-router-dom";
 
 export default function MovieDetails() {
-  const { id: slug } = useParams();
-  const { data, isLoading } = useGetMoviesQuery(slug);
-  console.log(data);
+  const { slug  } = useParams();
+  const { data, isLoading} = useGetSingleMovieQuery(slug as string);
+
+ if (isLoading) {
+    return (
+      <p className="text-center p-5 items-center">
+        <span className="loading loading-ring loading-lg"></span>
+      </p>
+    );
+  }
+ 
+
+  console.log(data.data);
 
   // const renderStars = (rating: number) => {
   //   const stars = [];

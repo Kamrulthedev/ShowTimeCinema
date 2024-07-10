@@ -1,6 +1,6 @@
-import { MovieCard } from "@/components/MovieCard/MovieCard";
 import { useGetMoviesQuery } from "@/redux/api/api";
 import { TMovie } from "@/types";
+import MovieDetails from "./MovieDetails";
 
 export default function Movies() {
   const { data, isLoading } = useGetMoviesQuery(undefined);
@@ -17,7 +17,7 @@ export default function Movies() {
     <div className="container my-5 p-2">
       <div className="grid grid-rows-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {data?.data.map((movie: TMovie) => (
-          <MovieCard key={movie?._id} movie={movie}></MovieCard>
+          <MovieDetails key={movie?._id} movie={movie}></MovieDetails>
         ))}
       </div>
     </div>
