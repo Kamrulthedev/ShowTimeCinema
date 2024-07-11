@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
-import { useGetMovieDetailsAndReviewsQuery, useGetSingleMovieQuery } from "@/redux/api/api";
+import {
+  useGetMovieDetailsAndReviewsQuery,
+} from "@/redux/api/api";
 import { Play, Plus, Star, StarIcon } from "lucide-react";
 import { useParams } from "react-router-dom";
 
 export default function MovieDetails() {
   const { slug } = useParams();
-  const {data, isLoading} = useGetMovieDetailsAndReviewsQuery(slug as string)
-  // const { data, isLoading } = useGetSingleMovieQuery(slug as string);
+  const { data, isLoading } = useGetMovieDetailsAndReviewsQuery(slug as string);
 
   if (isLoading) {
     return (
@@ -16,8 +17,8 @@ export default function MovieDetails() {
       </p>
     );
   }
-
   const movie = data.movie.data;
+  const reviews = data.reviews.data;
 
   const renderStars = (rating: number) => {
     const stars = [];
@@ -42,11 +43,12 @@ export default function MovieDetails() {
     });
   };
 
-  // // celculate average rating max 10
-  // const totalRating = reviews.reduce((acc: number, review: any) => {
-  //   return acc + review.rating;
-  // }, 0);
-  // const averageRating = totalRating / reviews.length;
+  
+  // celculate average rating max 10
+  const totalRating = reviews.reduce((acc: number, review: any) => {
+    return acc + review.rating;
+  }, 0);
+  const averageRating = totalRating / reviews.length;
 
   return (
     <div className="flex flex-col items-center p-4 bg-gray-900 text-white min-h-screen">
@@ -69,8 +71,8 @@ export default function MovieDetails() {
               <div className="mb-2 flex items-center">
                 <span className="font-semibold text-yellow-500">Rating:</span>
                 <div className="ml-2 flex">
-                  {/* {renderStars(averageRating)} */}
-                </div>
+                  {renderStars(averageRating)}
+                  </div>
               </div>
               <p className="mb-2">
                 <span className="font-semibold text-yellow-500">Genre:</span>{" "}
@@ -98,7 +100,8 @@ export default function MovieDetails() {
         </div>
         <div className="mt-6">
           <h2 className="text-2xl font-bold mb-4">User Reviews</h2>
-          {/* {reviews.map((review: any) => (
+
+          {reviews.map((review: any) => (
             <div className="bg-gray-700 p-4 rounded-lg mb-4 animate__animated animate__fadeInUp">
               <p className="text-yellow-500 font-semibold">{review.email}</p>
               <p className="text-gray-400 text-sm mb-2">
@@ -106,7 +109,8 @@ export default function MovieDetails() {
               </p>
               <p>{review.comment}</p>
             </div>
-          ))} */}
+          ))}
+
           <Button className="px-4 py-2 bg-yellow-500 text-gray-900 rounded-lg font-bold hover:bg-yellow-400">
             Load More Reviews
           </Button>
