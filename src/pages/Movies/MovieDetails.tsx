@@ -18,9 +18,6 @@ export default function MovieDetails() {
   }
 
   const movie = data.movie.data;
-  console.log(movie);
-  const dd = data.reviws;
-  console.log(dd)
 
   const renderStars = (rating: number) => {
     const stars = [];
