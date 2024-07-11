@@ -3,7 +3,7 @@ import { MovieCard } from "../MovieCard/MovieCard";
 import { TMovie } from "@/types";
 
 const TopMovies = () => {
-  const { data, isLoading } = useGetMoviesQuery(undefined);
+  const { data, isLoading } = useGetMoviesQuery({});
 
   if (isLoading) {
     return (
