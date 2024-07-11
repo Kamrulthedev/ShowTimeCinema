@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
-import { useGetSingleMovieQuery } from "@/redux/api/api";
+import { useGetMovieDetailsAndReviewsQuery, useGetSingleMovieQuery } from "@/redux/api/api";
 import { Play, Plus, Star, StarIcon } from "lucide-react";
 import { useParams } from "react-router-dom";
 
 export default function MovieDetails() {
   const { slug } = useParams();
-  const { data, isLoading } = useGetSingleMovieQuery(slug as string);
+  const {data, isLoading} = useGetMovieDetailsAndReviewsQuery(slug as string)
+  // const { data, isLoading } = useGetSingleMovieQuery(slug as string);
 
   if (isLoading) {
     return (
@@ -15,9 +16,11 @@ export default function MovieDetails() {
       </p>
     );
   }
-  
-  const movie = data.data;
+
+  const movie = data.movie.data;
   console.log(movie);
+  const dd = data.reviws;
+  console.log(dd)
 
   const renderStars = (rating: number) => {
     const stars = [];

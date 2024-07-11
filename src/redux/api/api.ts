@@ -28,11 +28,46 @@ export const baseApi = createApi({
     getSingleMovie: builder.query({
       query: (slug) => ({
         url: `/movies/${slug}`,
-        method: 'GET', 
+        method: "GET",
       }),
     }),
+    getMovieDetailsAndReviews: builder.query({
+      async queryFn(slug: string): Promise<any> {
+        try {
+          const [movieResponse, reviewResponse] = await Promise.all([
+            fetch(`https://c-session.vercel.app/api/movies/${slug}`),
+            fetch(`https://c-session.vercel.app/api/movies/${slug}/reviews`),
+          ]);
 
+          if (!reviewResponse.ok) {
+            return {
+              error: { status: "FETCH_ERROR", message: "Failed to fetch data" },
+            };
+          }
+
+          if (!movieResponse.ok || !reviewResponse.ok) {
+            return {
+              error: { status: "FETCH_ERROR", message: "Failed to fetch data" },
+            };
+          }
+
+          const movieData = await movieResponse.json();
+          const reviewData = await reviewResponse.json();
+
+          return { data: { movie: movieData, reviews: reviewData } };
+        } catch (error) {
+          return {
+            error: { status: "FETCH_ERROR", message: (error as any).message },
+          };
+        }
+      },
+    }),
   }),
 });
 
-export const { useGetMoviesQuery, useAddRatingMutation, useGetSingleMovieQuery } = baseApi;
+export const {
+  useGetMoviesQuery,
+  useAddRatingMutation,
+  useGetSingleMovieQuery,
+  useGetMovieDetailsAndReviewsQuery,
+} = baseApi;
